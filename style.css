@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+
+body {
+    background: url('./tlo412.jpg');
+    background-position: 0 1000px;
+    font-family: 'Roboto' ,sans-serif;
+    
+    }
+#contener {
+    float: left;
+    width: 550px;
+    height: 370px;
+    text-align: center;
+}
+
+#gildia {
+    float: left;
+    width: 200px;
+    height: 200px;
+}
+
+#Drewno {
+    float: left;
+    width: 120px;
+    height: 200px;
+}
+
+#metal {
+    float: left;
+    width: 200px;
+    height: 200px;
+}
+
+#jedzenie {
+    float: left;
+    width: px;
+    height: 200px;
+}
+
+#kont {
+    float: right;
+}
+
+#level {
+    margin-top: 50px;
+    width: 200px;
+    height: 200px;
+}
+
+#nick {
+    width: 200px;
+    height: 200px;
+}
+
+#wioska {
+    float: left;
+    border: 3px solid rgb(0, 0, 0);
+}
+
+a {
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+    line-height: 2rem;
+    margin-bottom: 2rem;
+ }
