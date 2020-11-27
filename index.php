@@ -80,6 +80,19 @@
             </div>
 
         </header>
+        <div>
+ <b>LEVEL:
+  <progress id="progress_bar" max="100" title="0"><span>10</span>%</progress>
+    </b>
+ <script type="text/javascript">
+  var progressBar = document.getElementById('progress_bar');
+  function update_progress(newValue){
+    progressBar.value = newValue;
+    progressBar.title = newValue;
+    progressBar.getElementsByTagName('span')[0].textContent = newValue;
+  }
+ </script>
+</div>
         <main class="row border-bottom">
             <div class="col-12 col-md-3 border-right">
                 Lista budynków<br>
@@ -103,17 +116,16 @@
 <div id="kont">
     </div>
     <div id="level" style="background-image: url(ramka.png); ">
-        <a>Level</a>
     </div>
 </div>
 </div>
 
             <div class="col-12 col-md-6">
-                Widok wioski
+               
             </div>
 
             <div class="col-12 col-md-3 border-left">
-                Lista wojska
+                
             </div>
             
         </main>
