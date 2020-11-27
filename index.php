@@ -54,41 +54,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
-
-
-<div id="mel">
-
-<div id="contener">
-
-
-    <div id="gildia" style="background-image: url(ramka.png); ">
-        <a>Gildia</a>
-    </div>
-    <div id="Drewno" style="background-image: url(ramka.png); ">
-        <a>Drewno</a>
-    </div>
-    <div id="metal" style="background-image: url(ramka.png); ">
-        <a>Metal</a>
-    </div>
-    <div id="jedzenie" style="background-image: url(ramka.png); ">
-        
-    </div>
-</div>
-
-<div id="wioska" style="background-image: url(img\ramka.png);">
-    <img src="mapa123.jpg" alt="wioska" style="height: 350px; width: 550px;">
-</div>
-<div id="kont">
-
-    <div id="nick" style="background-image: url(ramka.png); ">
-        <a>Nick</a>
-    </div>
-    <div id="level" style="background-image: url(ramka.png); ">
-        <a>Level</a>
-    </div>
-</div>
-</div>
-
     <div class="container">
         <header class="row border-bottom">
             <div class="col-12 col-md-3">
@@ -134,6 +99,40 @@
             <div class="col-12 col-md-3 border-left">
                 Lista wojska
             </div>
+
+            <div id="mel">
+
+<div id="contener">
+
+
+    <div id="gildia" style="background-image: url(ramka.png); ">
+        <a></a>
+    </div>
+    <div id="Drewno" style="background-image: url(ramka.png); ">
+        <a></a>
+    </div>
+    <div id="metal" style="background-image: url(ramka.png); ">
+        <a></a>
+    </div>
+    <div id="jedzenie" style="background-image: url(ramka.png); ">
+        
+    </div>
+</div>
+
+<div id="wioska" style="background-image: url(img\ramka.png);">
+    <img src="mapa123.jpg" alt="wioska" style="height: 350px; width: 550px;">
+</div>
+<div id="kont">
+
+    <div id="nick" style="background-image: url(ramka.png); ">
+        <a></a>
+    </div>
+    <div id="level" style="background-image: url(ramka.png); ">
+        <a>Level</a>
+    </div>
+</div>
+</div>
+
         </main>
         <footer class="row">
             <div class="col-12">
