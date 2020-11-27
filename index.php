@@ -78,6 +78,7 @@
             <div class="col-12 col-md-3">
                 Guzik wyloguj
             </div>
+
         </header>
         <main class="row border-bottom">
             <div class="col-12 col-md-3 border-right">
@@ -93,39 +94,13 @@
                     <button>Rozbuduj kopalnie żelaza</button>
                 </a>
             </div>
-            <div class="col-12 col-md-6">
-                Widok wioski
-            </div>
-            <div class="col-12 col-md-3 border-left">
-                Lista wojska
-            </div>
-
             <div id="mel">
 
 <div id="contener">
-
-
-    <div id="gildia" style="background-image: url(ramka.png); ">
-        <a></a>
-    </div>
-    <div id="Drewno" style="background-image: url(ramka.png); ">
-        <a></a>
-    </div>
-    <div id="metal" style="background-image: url(ramka.png); ">
-        <a></a>
-    </div>
-    <div id="jedzenie" style="background-image: url(ramka.png); ">
-        
-    </div>
-</div>
-
 <div id="wioska" style="background-image: url(img\ramka.png);">
-    <img src="mapa123.jpg" alt="wioska" style="height: 350px; width: 550px;">
+    <img src="mapa123.jpg" alt="wioska" style="height: 350px; width: 550px; " >
 </div>
 <div id="kont">
-
-    <div id="nick" style="background-image: url(ramka.png); ">
-        <a></a>
     </div>
     <div id="level" style="background-image: url(ramka.png); ">
         <a>Level</a>
@@ -133,6 +108,14 @@
 </div>
 </div>
 
+            <div class="col-12 col-md-6">
+                Widok wioski
+            </div>
+
+            <div class="col-12 col-md-3 border-left">
+                Lista wojska
+            </div>
+            
         </main>
         <footer class="row">
             <div class="col-12">
@@ -150,11 +133,10 @@
 
 </header>
 
-
-
+<div style="text-align: center; width: 500px">
   <img src="mapa123.jpg" alt="wioska" style=" margin-left: auto; margin-right: auto; margin-top: 100px;">
 
-    
+    </div>
 
 
 
