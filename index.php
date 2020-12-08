@@ -1,22 +1,18 @@
 
 <?php 
-        require('./class/Village.class.php');
+        require_once('./class/GameManager.class.php');
         session_start();
-        if(!isset($_SESSION['v'])) // jeżeli nie ma w sesji naszej wioski
+        if(!isset($_SESSION['gm'])) // jeżeli nie ma w sesji naszej wioski
         {
-            echo "Tworzę nową wioskę...";
-            $v = new Village();
-            $_SESSION['v'] = $v;
-            //reset czasu od ostatniego odświerzenia strony
-            $deltaTime = 0;
+            $gm = new GameManager();
+            $_SESSION['gm'] = $gm;
         } 
         else //mamy już wioskę w sesji - przywróć ją
         {
-            $v = $_SESSION['v'];
-            //ilosc sekund od ostatniego odświerzenia strony
-            $deltaTime = time() - $_SESSION['time'];
+            $gm = $_SESSION['gm'];
         }
-        $v->gain($deltaTime);
+        $v = $gm->v; //neizależnie cyz nowa gra czy załadowana
+        $gm->sync(); //przelicz surowce
         
         if(isset($_REQUEST['action'])) 
         {
@@ -41,7 +37,6 @@
 
 
 
-        $_SESSION['time'] = time();
         
         
     ?>
@@ -97,9 +92,15 @@
   Kopalnia żelaza,<br>
          poziom <?php echo $v->buildingLVL("ironMine"); ?> <br>
         Zysk/h: <?php echo $v->showHourGain("iron"); ?><br>
+        <?php if($v->checkBuildingUpgrade("ironMine")) : ?>
         <a href="index.php?action=upgradeBuilding&building=ironMine">
             <button type="button" class="btn btn-outline-warning">Rozbuduj kopalnie żelaza</button>
         </a>
+        <?php else : ?>
+          
+            <button onclick="missingResourcesPopup()" type="button" class="btn btn-outline-warning">Rozbuduj kopalnie żelaza</button>
+        </a>
+        <?php endif; ?>
         </div>
 </div>
 <br>
@@ -113,9 +114,15 @@
   Drwal,<br>
          poziom <?php echo $v->buildingLVL("woodcutter"); ?> <br>
         Zysk/h: <?php echo $v->showHourGain("wood"); ?><br>
+        <?php if($v->checkBuildingUpgrade("woodcutter")) : ?>
         <a href="index.php?action=upgradeBuilding&building=woodcutter">
             <button type="button" class="btn btn-outline-warning">Rozbuduj drwala</button>
         </a>
+        <?php else : ?>
+          
+            <button onclick="missingResourcesPopup()" type="button" class="btn btn-outline-warning">Rozbuduj drwala</button>
+        </a>
+        <?php endif; ?>
   </div>
 </div>
 <br>
@@ -129,9 +136,14 @@
   Rozbudowa pola,<br>
          poziom <?php echo $v->buildingLVL("foodearth"); ?> <br>
         Zysk/h: <?php echo $v->showHourGain("food"); ?><br>
+        <?php if($v->checkBuildingUpgrade("foodearth")) : ?>
         <a href="index.php?action=upgradeBuilding&building=foodearth">
-            <button type="button" class="btn btn-outline-warning">eozbudowa Pola</button>
+            <button type="button" class="btn btn-outline-warning">Rozbudowa Pola</button>
         </a>
+        <?php else : ?>
+        <button onclick="missingResourcesPopup()" type="button" class="btn btn-outline-warning">Rozbudowa Pola</button>
+        </a>
+        <?php endif; ?>
         </div>
 </div>
 </div>
@@ -146,8 +158,37 @@
 
     
 
-
-
+  <footer class="row">
+            <div class="col-12">
+            <table class="table table-bordered">
+            <?php
+            
+                
+                    
+                
+            
+            foreach ($gm->l->getLog() as $entry) {
+                $timestamp = date('d.m.Y H:i:s', $entry['timestamp']);
+                $sender = $entry['sender'];
+                $message = $entry['message'];
+                $type = $entry['type'];
+                echo "<tr>";
+                echo "<td>$timestamp</td>";
+                echo "<td>$sender</td>";
+                echo "<td>$message</td>";
+                echo "<td>$type</td>";
+                echo "</tr>";
+            }
+            
+            ?>
+            </table>
+            </div>
+        </footer>
+<script>
+function missingResourcesPopup(){
+    window.alert("Brakuje zasobów");
+}
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>
