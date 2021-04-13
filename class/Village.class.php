@@ -9,12 +9,12 @@ class Village
     public function __construct($gameManger)
     {
         $this->gm = $gameManger;
-        $this->log('Utworzono nową wioskę', 'info');
+        $this->log('Tworzę nową wioskę', 'info');
         $this->buildings = array(
             'townHall' => 1,
             'woodcutter' => 1,
-            'ironMine' => 1,
-            'foodearth' => 1,
+            'ironMine' => 0,
+            'farm' => 0,
         );
         $this->storage = array(
             'wood' => 0,
@@ -25,13 +25,11 @@ class Village
             'woodcutter' => array(
                 2 => array(
                     'wood' => 100,
-                    'iron' => 40,
-                    'food' => 10,
+                    'iron' => 50,
                 ),
                 3 => array(
                     'wood' => 200,
-                    'iron' => 300,
-                    'food' => 100,
+                    'iron' => 100,
                 )
             ),
             'ironMine' => array(
@@ -40,21 +38,44 @@ class Village
                 ),
                 2 => array(
                     'wood' => 300,
-                    'iron' => 400,
-                    'food' => 100,
+                    'iron' => 100,
                 )
             ),
-            'foodearth' => array(
-                4 => array(
-                    'iron' => 400,
-                ),
-                5 => array(
-                    'wood' => 300,
-                    'iron' => 300,
-                    'food' => 100,
+            'farm' => array(
+                1 => array(
+                    'wood' => 100,
+                    'iron' => 25,
                 )
             ),
         );
+        $this->log('Utworzono nową wioskę', 'info');
+    }
+    public function buildingList() : array {
+        $buildingList = array();
+        foreach($this->buildings as $buildingName => $buildingLVL)
+        {
+            $building = array();
+            $building['buildingName'] = $buildingName;
+            $building['buildingLVL'] = $buildingLVL;
+            $building['upgradePossible'] = $this->checkBuildingUpgrade($buildingName);
+            if(isset($this->upgradeCost[$buildingName][$buildingLVL+1] ))
+                $building['upgradeCost'] = $this->upgradeCost[$buildingName][$buildingLVL+1] ;
+            else 
+                $building['upgradeCost'] = array();
+            switch($buildingName) {
+                case 'woodcutter':
+                    $building['hourGain'] = $this->woodGain(60*60);
+                    $building['capacity'] = $this->capacity('wood');
+                break;
+                case 'ironMine':
+                    $building['hourGain'] = $this->ironGain(60*60);
+                    $building['capacity'] = $this->capacity('iron');
+                break;
+            }
+            
+            array_push($buildingList, $building);
+        }
+        return $buildingList;
     }
     private function woodGain(int $deltaTime) : float
     {
@@ -77,7 +98,7 @@ class Village
     private function foodGain(int $deltaTime) : float
     {
         //liczymy zysk na godzine z wzoru poziom_drwala ^ 2
-        $gain = pow($this->buildings['foodearth'],2) * 5000;
+        $gain = pow($this->buildings['farm'],2) * 2500;
         // liczymy zysk na sekunde (godzina/3600)
         $perSecondGain = $gain / 3600;
         //zwracamy zysk w czasie $deltaTime
@@ -86,14 +107,17 @@ class Village
     public function gain($deltaTime) 
     {
         $this->storage['wood'] += $this->woodGain($deltaTime);
-            if($this->storage['wood'] > $this->capacity('wood'))
-                $this->storage['wood'] > $this->capacity('wood');
+        if($this->storage['wood'] > $this->capacity('wood'))
+            $this->storage['wood'] = $this->capacity('wood');
+
         $this->storage['iron'] += $this->ironGain($deltaTime);
-            if($this->storage['iron'] > $this->capacity('iron'))
-                $this->storage['iron'] > $this->capacity('iron');
+        if($this->storage['iron'] > $this->capacity('iron'))
+            $this->storage['iron'] = $this->capacity('iron');
+
         $this->storage['food'] += $this->foodGain($deltaTime);
-            if($this->storage['food'] > $this->capacity('food'))
-                $this->storage['food'] > $this->capacity('food');
+        if($this->storage['food'] > $this->capacity('food'))
+            $this->storage['food'] = $this->capacity('food');
+    
     }
     public function upgradeBuilding(string $buildingName) : bool
     {
@@ -103,19 +127,31 @@ class Village
             //key - nazwa surowca
             //value koszt surowca
             if($value > $this->storage[$key])
+            {
+                $this->log("Nie udało się ulepszyć budynku - brak surowca: ".$key, "warning");
                 return false;
+            }
         }
         foreach ($cost as $key => $value) {
             //odejmujemy surowce na budynek
             $this->storage[$key] -= $value;
         }
+        //odwołanie do scheduelra
+        $this->gm->s->add(time()+60, 'Village', 'scheduledBuildingUpgrade', $buildingName);
+        
+        return true;
+    }
+    public function scheduledBuildingUpgrade(string $buildingName)
+    {
         //podnies lvl budynku o 1
         $this->buildings[$buildingName] += 1; 
-        return true;
+        $this->log("Ulepszono budynek: ".$buildingName, "info");
     }
     public function checkBuildingUpgrade(string $buildingName) : bool
     {
         $currentLVL = $this->buildings[$buildingName];
+        if(!isset($this->upgradeCost[$buildingName][$currentLVL+1]))
+            return false;
         $cost = $this->upgradeCost[$buildingName][$currentLVL+1];
         foreach ($cost as $key => $value) {
             //key - nazwa surowca
@@ -134,11 +170,8 @@ class Village
             case 'iron':
                 return $this->ironGain(3600);
             break;
-            case 'food':
-                return $this->foodGain(3600);
-            break;
             default:
-                echo "Nie ma takiego surowca!";
+                $this->log("Nie ma takiego surowca!", "error");
             break;
         }
     }
@@ -150,25 +183,25 @@ class Village
         }
         else
         {
-            return "Nie ma takiego surowca!";
+            $this->log("Nie ma takiego surowca!", "error");
+            return "";
         }
     }
     public function buildingLVL(string $building) : int 
     {
         return $this->buildings[$building];
     }
-    public function capacity(string $resource) : int
+    public function capacity(string $resource) : int 
     {
         switch ($resource) {
             case 'wood':
-                return $this->woodGain(60*60*24);
+                return $this->woodGain(60*60*24); //doba
                 break;
             case 'iron':
-                return $this->ironGain(60*60*24);
+                return $this->ironGain(60*60*12); //12 godzin
                 break;
             case 'food':
-                return $this->foodGain(60*60*12);
-                break;
+                return $this->foodGain(60*60*24);    
             default:
                 return 0;
                 break;
