@@ -17,7 +17,11 @@ $smarty->assign('mainContent', "village.tpl"); //default view
 /* end smarty init */
 require_once('./class/GameManager.class.php');
 session_start();
-
+if(!isset($_SESSION['player_id']) && !isset($_REQUEST['login'])) 
+    {
+        $smarty->display('login.tpl');
+        exit;
+    }
 if(!isset($_SESSION['gm'])) // jeżeli nie ma w sesji naszej wioski
     {
     $gm = new GameManager();
@@ -105,6 +109,4 @@ $smarty->assign('food', $v->showStorage("food"));
 
 $smarty->assign('logArray', $gm->l->getLog());
 $smarty->display('index.tpl');     
-
-echo serialize($gm);
 ?>
