@@ -31,6 +31,15 @@ $gm->sync(); //przelicz surowce
         {
             switch($_REQUEST['action'])
             {
+                case 'register':
+                    if(isset($_REQUEST['login']) && isset($_REQUEST['password']))
+                    {
+                        //zapisz usera do bazy  
+                    }
+                    else
+                    $smarty->display('register.tpl');
+                    exit;   
+                break;
                 case 'upgradeBuilding':
                     $v->upgradeBuilding($_REQUEST['building']);
                     $smarty->assign('buildingList', $v->buildingList());
@@ -78,4 +87,6 @@ $smarty->assign('food', $v->showStorage("food"));
 
 $smarty->assign('logArray', $gm->l->getLog());
 $smarty->display('index.tpl');     
+
+echo serialize($gm);
 ?>
