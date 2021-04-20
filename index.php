@@ -21,7 +21,7 @@ if(!isset($_SESSION['player_id']) && !isset($_REQUEST['login']))
     {
         $smarty->display('login.tpl');
         exit;
-    }
+    } 
 if(!isset($_SESSION['gm'])) // jeżeli nie ma w sesji naszej wioski
     {
     $gm = new GameManager();
