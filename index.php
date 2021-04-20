@@ -109,4 +109,8 @@ $smarty->assign('food', $v->showStorage("food"));
 
 $smarty->assign('logArray', $gm->l->getLog());
 $smarty->display('index.tpl');     
+
+
+
+
 ?>
