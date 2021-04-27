@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.39, created on 2021-04-12 16:14:53
+/* Smarty version 3.1.39, created on 2021-04-27 13:33:55
   from 'C:\xampp\htdocs\ley\smarty\templates\townHall.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.39',
-  'unifunc' => 'content_607455dd065d26_67733843',
+  'unifunc' => 'content_6087f6a3c88e52_69655926',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'cb0776d41f51b24bf3efac8d186b451c2204d538' => 
     array (
       0 => 'C:\\xampp\\htdocs\\ley\\smarty\\templates\\townHall.tpl',
-      1 => 1618236745,
+      1 => 1619097275,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_607455dd065d26_67733843 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6087f6a3c88e52_69655926 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\ley\\smarty\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 ?>
 <h3>Ratusz</h3>
@@ -62,10 +62,11 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
     </td>
     <td>
     <?php if ($_smarty_tpl->tpl_vars['building']->value['upgradePossible']) {?>
-        <a href="index.php?action=upgradeBuilding&building=<?php echo $_smarty_tpl->tpl_vars['building']->value['buildingName'];?>
+        <form action="/upgradeBuilding" method="POST">
+            <input type="hidden" name="building" value="<?php echo $_smarty_tpl->tpl_vars['building']->value['buildingName'];?>
 ">
-            <button>Rozbuduj</button>
-    </a>
+            <button type="submit">Rozbuduj</button>
+        </form>
     <?php }?>
     </td>
     </tr>

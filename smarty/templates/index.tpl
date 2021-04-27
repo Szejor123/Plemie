@@ -6,7 +6,7 @@
 <div class="btn-group" style=" margin-top: 7px;">
   <div>
   <div class="btn-group">
-  <button style=" background-image: url(ramka.png); color: white; margin-left: 580px; height: 40px; width: 150px; text-align: center;  " onclick="window.location.href='index.php?action=townHall'"  ><a  >
+  <button style=" background-image: url(ramka.png); color: white; margin-left: 580px; height: 40px; width: 150px; text-align: center;  " onclick="window.location.href='/townhall'"  ><a  >
  Ratusz
   </a> </button>
 
@@ -19,7 +19,7 @@
   <div>
   
   <div class="btn-group">
-  <button style=" background-image: url(ramka.png); color: white; margin-left: 30px; height: 40px; width: 150px; text-align: center; " onclick="window.location.href='index.php?action=townSquare'"  ><a>
+  <button style=" background-image: url(ramka.png); color: white; margin-left: 30px; height: 40px; width: 150px; text-align: center; " onclick="window.location.href='/townsquare'"  ><a>
    Plac
   </a> </button>
  
