@@ -29,6 +29,7 @@ if(isset($_SESSION['gm'])) {
         $v = $gm->v;
         $gm->sync();
 
+        $smarty->assign('building.buildingLVL', $v->showStorage("building.buildingLVL"));
         $smarty->assign('wood', $v->showStorage("wood"));
         $smarty->assign('iron', $v->showStorage("iron"));
         $smarty->assign('food', $v->showStorage("food"));
@@ -38,15 +39,19 @@ if(isset($_SESSION['gm'])) {
 }
 
 Route::add('/', function () {
-    global $smarty;
+    global $smarty, $v, $gm;
     if (!isset($_SESSION['gm'])) // jeżeli nie ma w sesji naszej gry
     {
         global $smarty;
         $smarty->display('login.tpl');
         
     }
+    
     $smarty->assign('mainContent', "village.tpl");
     $smarty->display('index.tpl');
+    $smarty->assign('buildingList', $v->buildingList());
+    $buildingUpgrades = $gm->s->getTasksByFunction("scheduledBuildingUpgrade");
+    $smarty->assign('buildingUpgrades', $buildingUpgrades);
 });
 
 Route::add('/login', function () {
